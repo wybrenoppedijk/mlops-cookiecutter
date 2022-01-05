@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
-import click
+import glob
 import logging
+import os
+from pathlib import Path
+
+import click
 import numpy as np
 import torch
-import glob
-from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
-import os
 
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
+@click.argument("input_filepath", type=click.Path(exists=True))
+@click.argument("output_filepath", type=click.Path())
 def main(input_filepath, output_filepath):
-    """ Runs data processing scripts to turn raw data from (../raw) into
-        cleaned data ready to be analyzed (saved in ../processed).
+    """Runs data processing scripts to turn raw data from (../raw) into
+    cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    logger.info("making final data set from raw data")
 
-    x = np.load(input_filepath+ '/corruptmnist/test.npz', mmap_mode='r')
+    x = np.load(input_filepath + "/corruptmnist/test.npz", mmap_mode="r")
 
     images_test = torch.from_numpy(x.f.images).float()
     labels_test = torch.from_numpy(x.f.labels).float()
@@ -29,22 +30,25 @@ def main(input_filepath, output_filepath):
     except FileExistsError:
         # directory already exists
         pass
-    torch.save((images_test, labels_test), output_filepath + '/corruptmnist/test.pt')
+    torch.save((images_test, labels_test), output_filepath + "/corruptmnist/test.pt")
 
     train = []
 
-    for idx, file in enumerate(glob.glob(input_filepath + '/corruptmnist/train*.npz')):
-        x = np.load(file, mmap_mode='r')
+    for idx, file in enumerate(glob.glob(input_filepath + "/corruptmnist/train*.npz")):
+        x = np.load(file, mmap_mode="r")
         images_train = torch.from_numpy(x.f.images).float()
         labels_train = torch.from_numpy(x.f.labels).float()
 
-        torch.save((images_train, labels_train), output_filepath + '/corruptmnist/train{}.pt'.format(idx))
+        torch.save(
+            (images_train, labels_train),
+            output_filepath + "/corruptmnist/train{}.pt".format(idx),
+        )
 
-    logger.info('Done!')
+    logger.info("Done!")
 
 
-if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+if __name__ == "__main__":
+    log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=logging.INFO, format=log_fmt)
 
     # not used in this stub but often useful for finding various files
