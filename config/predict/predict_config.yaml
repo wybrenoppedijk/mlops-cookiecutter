@@ -1,0 +1,2 @@
+model_path: 'models/corruptmnist/model.pt'
+data_path: 'data/processed/corruptmnist/test.pt'
