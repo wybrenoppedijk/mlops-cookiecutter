@@ -1,2 +1,5 @@
 defaults:
-    - experiment: exp1
+    - model: model_config.yaml
+    - train: train_config.yaml
+    - predict: predict_config.yaml
+    - data: data_config.yaml

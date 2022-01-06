@@ -1,0 +1,17 @@
+model:
+  seed: 17
+  dropout_rate: 0.2
+  max_channel_size: 32
+  stride: 2
+  kernel: 5
+  padding: 2
+  fc_hidden: 150
+  output_classes: 10
+  img_height: 28
+  img_width: 28
+  img_channels: 1
+train:
+  lr: 0.001
+  epoch: 10
+  model_name: model.pt
+  data_path: data/train.csv

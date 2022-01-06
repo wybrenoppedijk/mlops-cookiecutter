@@ -1,0 +1,2 @@
+dataset: 'mnist'
+data_path: ${hydra:runtime.cwd}/data/processed/corruptmnist

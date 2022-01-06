@@ -5,5 +5,8 @@ max_channel_size: 32
 stride: 2
 kernel: 5
 padding: 2
-img_size: 28
-
+hidden_size: 150
+num_classes: 10
+img_height: 28
+img_width: 28
+img_channels: 1

@@ -32,6 +32,9 @@ data: requirements
 ## Make Training
 train: requirements
 	$(PYTHON_INTERPRETER) src/models/train_model.py
+## Make Prediction
+predict: requirements
+	$(PYTHON_INTERPRETER) src/models/predict_model.py models/mnistcorrupted/model.pt data/processed/corruptmnist/test.pt
 
 ## Make Visualizations
 viz: requirements

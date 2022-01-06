@@ -1,34 +1,37 @@
 import glob
 import logging
-import sys
+import hydra
 
 import click
 import numpy as np
 import torch
 from PIL import Image
+from src.models.model import MyAwesomeModel
 
 
-@click.command()
-@click.argument("model", type=click.Path(exists=True))
-@click.argument("images", type=click.Path(exists=True))
-def evaluate(model, images):
+@hydra.main(config_path="../../config", config_name='default_config.yaml')
+def evaluate(config):
     logger = logging.getLogger(__name__)
     logger.info("Strat Evaluating..")
     # add any additional argument that you want
-    model = torch.load(model)
+    hparam = config.predict
+    model = MyAwesomeModel(config.model)
+    model.load_state_dict(torch.load(hydra.utils.get_original_cwd() + '/' + hparam['model_path']))
     model.eval()
 
-    # load data]
-    eval_images = None
+    # load data
+    images = hydra.utils.get_original_cwd() + '/' + hparam['data_path']
     if images[-3:] == "npy" or images[-3:] == "npz" or images[-3:] == "pkl":
         eval_images = np.load(images).astype(np.float32)
-        eval_images = torch.from_numpy(images)
+        eval_images = torch.from_numpy(eval_images)
+    elif images[-3:] == ".pt":
+        eval_images = torch.load(images)
     else:
         filelist = glob.glob(images + "/*")
         eval_images = np.array([np.array(Image.open(fname)) for fname in filelist])
 
     # predict
-    return model(eval_images.unsqueeze(1))
+    return model(eval_images[0].unsqueeze(1))
 
 
 if __name__ == "__main__":

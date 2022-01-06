@@ -1,0 +1,10 @@
+model:
+  seed: 17
+  dropout_rate: 0.2
+  max_channel_size: 32
+  stride: 2
+  kernel: 5
+  padding: 2
+  img_size: 28
+  fc_hidden: 150
+  output_classes: 10

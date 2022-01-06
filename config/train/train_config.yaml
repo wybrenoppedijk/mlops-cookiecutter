@@ -1,0 +1,4 @@
+lr: 1e-3
+epoch: 10
+model_name: 'model.pt'
+data_path: 'data/train.csv'
