@@ -15,7 +15,7 @@ def evaluate(config):
     logger.info("Strat Evaluating..")
     # add any additional argument that you want
     hparam = config.predict
-    model = MyAwesomeModel(config.model)
+    model = MyAwesomeModel(config)
     model.load_state_dict(torch.load(hydra.utils.get_original_cwd() + '/' + hparam['model_path']))
     model.eval()
 

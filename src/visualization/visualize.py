@@ -9,7 +9,6 @@ import hydra
 from sklearn.manifold import TSNE
 from torch import Tensor, nn
 
-from src.models.model import MyAwesomeModel
 
 
 class FeatureExtractor(nn.Module):
@@ -46,13 +45,13 @@ class FeatureExtractor(nn.Module):
 
 
 class Visuals(object):
-    def __init__(self, model, data):
+    def  __init__(self, model, data):
         self.model = model
         self.model.eval()
         self.data = data
         self.features = {}
 
-    def intermediate_representation(self, layer_id):
+    def intermediate_representation(self, layer_id, epoch):
         """Plots the intermediate representation of the model for a given layer.
         Parameters:
                 data (tensor): a 4 dimensional tensor of shape (batch_size, channels, height, width)
@@ -65,8 +64,9 @@ class Visuals(object):
         plt.clf()
         model_features = FeatureExtractor(self.model, layers=[layer_id])
         images, y = self.data
-        activations = model_features(images.unsqueeze(1))[layer_id]
-        activations = activations[np.random.randint(0, activations.shape[0], 1), :][0]
+        activations = model_features(images)[layer_id]
+        img = 1
+        activations = activations[img, :]
         n_features = activations.shape[0]
         images_per_row = 16
         size = activations.shape[-1]
@@ -89,11 +89,10 @@ class Visuals(object):
         plt.imshow(display_grid, aspect='auto', cmap='viridis')
         plt.title(layer_id)
         plt.grid(False)
-        plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/{layer_id}.png")
+        plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/representation-{layer_id}-ep-{epoch}.png")
         return plt
 
-
-    def intermediate_distribution(self, layer_id):
+    def intermediate_distribution(self, layer_id, epoch):
         """Plots the intermediate representation of the model for a given layer.
                Parameters:
                        data (tensor): a 4 dimensional tensor of shape (batch_size, channels, height, width)
@@ -106,7 +105,7 @@ class Visuals(object):
         plt.clf()
         model_features = FeatureExtractor(self.model, layers=[layer_id])
         images, y = self.data
-        activations = model_features(images.unsqueeze(1))[layer_id]
+        activations = model_features(images)[layer_id]
         tsne = TSNE(n_components=2, init='pca', random_state=0, learning_rate='auto')
         activations = tsne.fit_transform(
             activations.detach().numpy().reshape(activations.size(0), -1)
@@ -121,16 +120,5 @@ class Visuals(object):
             alpha=0.3
         )
         plt.title("t-SNE visualization of layer {}".format(layer_id))
-        plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/{layer_id}.png")
+        plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/distribution-{layer_id}-ep-{epoch}.png")
         return plt
-
-
-if __name__ == "__main__":
-    cnf = hydra.initialize(config_path="../../config" )
-    cnf = hydra.compose(config_name='default_config.yaml')
-    model = MyAwesomeModel(cnf.model)
-    model.load_state_dict(torch.load("models/corruptmnist/model.pt"))
-    viz = Visuals(model)
-    viz.intermediate_representation(
-        torch.load("data/processed/corruptmnist/test.pt"), "conv.6"
-    )
