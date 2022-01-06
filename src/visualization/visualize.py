@@ -90,7 +90,7 @@ class Visuals(object):
         plt.title(layer_id)
         plt.grid(False)
         plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/{layer_id}.png")
-        return display_grid
+        return plt
 
 
     def intermediate_distribution(self, layer_id):
@@ -111,17 +111,16 @@ class Visuals(object):
         activations = tsne.fit_transform(
             activations.detach().numpy().reshape(activations.size(0), -1)
         )
-
+        plt.figure(figsize=(8, 8))
         sns.scatterplot(
             x=activations[:, 0],
             y=activations[:, 1],
             hue=y.data.numpy(),
             palette=sns.color_palette("hls", 10),
             legend="full",
-            alpha=0.3,
+            alpha=0.3
         )
         plt.title("t-SNE visualization of layer {}".format(layer_id))
-        plt.grid(False)
         plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/{layer_id}.png")
         return plt
 

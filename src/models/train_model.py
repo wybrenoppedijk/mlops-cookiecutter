@@ -66,10 +66,10 @@ def train(config):
 
         if epoch % 2 == 0:
             viz = Visuals(model, torch.load(config.data['data_path'] + '/test.pt'))
-            img=viz.intermediate_representation("conv.6")
-            plt = viz.intermediate_distribution("conv.6")
-            wandb.log({"Intermediate Representation": wandb.Image(img)})
-            wandb.log({"Intermediate Distribution": wandb.Image(plt)})
+            plt2=viz.intermediate_representation("conv.6")
+            wandb.log({"Intermediate Representation": wandb.Image(plt2)})
+            plt1 = viz.intermediate_distribution("conv.6")
+            wandb.log({"Intermediate Distribution": wandb.Image(plt1)})
 
         logger.info("Epoch: {}/{} Train Loss: {}".format(epoch, hparams['epoch'], losses[-1]))
         plot_loss(losses, losses_val, epoch)
