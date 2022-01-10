@@ -51,6 +51,11 @@ class MyAwesomeModel(LightningModule):
         )
 
     def forward(self, x):
+        if x.ndim != 4:
+            raise ValueError("Expected 4D tensor as input, got {}D".format(x.ndim))
+        if x.shape[1] != self.config.model["img_channels"]:
+            raise ValueError(
+                "Expected input with {} channels, got {}".format(self.config.model["img_channels"], x.shape[1]))
         x = self.conv(x)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
@@ -65,7 +70,7 @@ class MyAwesomeModel(LightningModule):
         acc = (y == y_hat.argmax(dim=-1)).float().mean()
 
         self.log('train_loss', loss)
-        self.log('train_acc', acc)
+        self.log('train_acc', acc, prog_bar=True)
         return loss
 
     def validation_step(self, *args, **kwargs) -> STEP_OUTPUT:
