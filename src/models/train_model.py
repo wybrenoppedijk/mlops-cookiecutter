@@ -1,20 +1,13 @@
 import logging
-import sys
 
-import click
 import hydra
-import numpy as np
 import pytorch_lightning as pl
 import torch
-import torch.nn.functional as F
-import wandb
 from model import MyAwesomeModel
 from pytorch_lightning import Trainer
 from torch.utils.data import DataLoader
 
 from src.data.dataset import MNIST_Corrupted
-from src.visualization.visualize import Visuals
-from src.visualization.visualize_train import plot_loss
 
 
 def acc(y_hat, y) -> float:

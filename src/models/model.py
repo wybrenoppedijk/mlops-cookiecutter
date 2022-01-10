@@ -1,12 +1,11 @@
 import functools
 import operator
-from typing import Optional
 
 import torch
 import torch.nn.functional as F
 import wandb
 from pytorch_lightning import LightningModule
-from pytorch_lightning.utilities.types import STEP_OUTPUT, TRAIN_DATALOADERS
+from pytorch_lightning.utilities.types import STEP_OUTPUT
 from torch import nn
 
 from src.visualization.visualize import Visuals

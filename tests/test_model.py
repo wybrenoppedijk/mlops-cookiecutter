@@ -1,6 +1,3 @@
-import os
-
-import numpy as np
 import pytest
 import torch
 from hydra import compose, initialize
@@ -27,7 +24,7 @@ def test_model_forward_shape_warnings():
         model = MyAwesomeModel(config)
         with pytest.raises(ValueError, match="Expected 4D tensor as input, got 3D"):
             X = torch.rand(1, 28, 28)
-            Y = model.forward(X)
+            model.forward(X)
 
 
 def test_model_forward_channel_warnings():
@@ -37,4 +34,4 @@ def test_model_forward_channel_warnings():
         model = MyAwesomeModel(config)
         with pytest.raises(ValueError, match="Expected input with 1 channels, got 3"):
             X = torch.rand(1, 3, 28, 28)
-            Y = model.forward(X)
+            model.forward(X)

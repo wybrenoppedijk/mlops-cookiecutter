@@ -1,7 +1,6 @@
 import glob
 import logging
 
-import click
 import hydra
 import numpy as np
 import torch

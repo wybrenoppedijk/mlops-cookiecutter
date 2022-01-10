@@ -82,7 +82,7 @@ class Visuals(object):
                     "uint8"
                 )
                 display_grid[
-                    col * size : (col + 1) * size, row * size : (row + 1) * size
+                    col * size: (col + 1) * size, row * size: (row + 1) * size
                 ] = channel_image
         scale = 1.0 / size
         plt.figure(
@@ -92,7 +92,8 @@ class Visuals(object):
         plt.title(layer_id)
         plt.grid(False)
         plt.savefig(
-            f"{hydra.utils.get_original_cwd()}/reports/figures/representation-{layer_id}-ep-{epoch}.png"
+            f"{hydra.utils.get_original_cwd()}"
+            f"/reports/figures/representation-{layer_id}-ep-{epoch}.png"
         )
         return plt
 
@@ -125,6 +126,7 @@ class Visuals(object):
         )
         plt.title("t-SNE visualization of layer {}".format(layer_id))
         plt.savefig(
-            f"{hydra.utils.get_original_cwd()}/reports/figures/distribution-{layer_id}-ep-{epoch}.png"
+            f"{hydra.utils.get_original_cwd()}"
+            f"/reports/figures/distribution-{layer_id}-ep-{epoch}.png"
         )
         return plt
