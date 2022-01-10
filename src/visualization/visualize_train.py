@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
 import hydra
+import matplotlib.pyplot as plt
+
 
 def plot_loss(loss_train, loss_val, epochs):
     plt.plot(range(epochs + 1), loss_train, label="Training loss")

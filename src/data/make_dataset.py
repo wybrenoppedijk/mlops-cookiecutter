@@ -30,7 +30,10 @@ def main(input_filepath, output_filepath):
     except FileExistsError:
         # directory already exists
         pass
-    torch.save((images_test.unsqueeze(1), labels_test), output_filepath + "/corruptmnist/test.pt")
+    torch.save(
+        (images_test.unsqueeze(1), labels_test),
+        output_filepath + "/corruptmnist/test.pt",
+    )
 
     images_train = torch.Tensor()
     labels_train = torch.Tensor()
@@ -43,7 +46,7 @@ def main(input_filepath, output_filepath):
 
     torch.save(
         (images_train.unsqueeze(1), labels_train.long()),
-        output_filepath + "/corruptmnist/train.pt"
+        output_filepath + "/corruptmnist/train.pt",
     )
 
     logger.info("Done!")

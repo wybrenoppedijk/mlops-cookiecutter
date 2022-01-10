@@ -3,17 +3,18 @@ import sys
 
 import click
 import hydra
-import wandb
 import numpy as np
+import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+import wandb
 from model import MyAwesomeModel
 from pytorch_lightning import Trainer
-import pytorch_lightning as pl
 from torch.utils.data import DataLoader
+
 from src.data.dataset import MNIST_Corrupted
-from src.visualization.visualize_train import plot_loss
 from src.visualization.visualize import Visuals
+from src.visualization.visualize_train import plot_loss
 
 
 def acc(y_hat, y) -> float:
@@ -22,16 +23,23 @@ def acc(y_hat, y) -> float:
     return correct / len(y)
 
 
-@hydra.main(config_path="../../config", config_name='default_config.yaml')
+@hydra.main(config_path="../../config", config_name="default_config.yaml")
 def train(config):
     logger = logging.getLogger(__name__)
     logger.info("Strat Training..")
 
-    mnist_train = DataLoader(MNIST_Corrupted(config.data['data_path'], train=True), batch_size=62, shuffle=True)
-    mnist_val_dataset = MNIST_Corrupted(config.data['data_path'], train=False)
+    mnist_train = DataLoader(
+        MNIST_Corrupted(config.data["data_path"], train=True),
+        batch_size=62,
+        shuffle=True,
+    )
+    mnist_val_dataset = MNIST_Corrupted(config.data["data_path"], train=False)
     mnist_val = DataLoader(mnist_val_dataset, batch_size=len(mnist_val_dataset))
 
-    trainer = Trainer(max_epochs=10, logger=pl.loggers.WandbLogger(project="mlops-mnist", config=config))
+    trainer = Trainer(
+        max_epochs=10,
+        logger=pl.loggers.WandbLogger(project="mlops-mnist", config=config),
+    )
     model = MyAwesomeModel(config)
     trainer.fit(model, mnist_train, mnist_val)
 

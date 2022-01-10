@@ -1,14 +1,12 @@
 from typing import Callable, Dict, Iterable
 
+import hydra
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import torch
-import hydra
-
 from sklearn.manifold import TSNE
 from torch import Tensor, nn
-
 
 
 class FeatureExtractor(nn.Module):
@@ -45,7 +43,7 @@ class FeatureExtractor(nn.Module):
 
 
 class Visuals(object):
-    def  __init__(self, model, data):
+    def __init__(self, model, data):
         self.model = model
         self.model.eval()
         self.data = data
@@ -80,33 +78,39 @@ class Visuals(object):
                 channel_image /= channel_image.std()
                 channel_image *= 64
                 channel_image += 128
-                channel_image = np.clip(channel_image.detach().numpy(), 0, 255).astype('uint8')
-                display_grid[col * size: (col + 1) * size,
-                row * size: (row + 1) * size] = channel_image
-        scale = 1. / size
-        plt.figure(figsize=(scale * display_grid.shape[1],
-                            scale * display_grid.shape[0]))
-        plt.imshow(display_grid, aspect='auto', cmap='viridis')
+                channel_image = np.clip(channel_image.detach().numpy(), 0, 255).astype(
+                    "uint8"
+                )
+                display_grid[
+                    col * size : (col + 1) * size, row * size : (row + 1) * size
+                ] = channel_image
+        scale = 1.0 / size
+        plt.figure(
+            figsize=(scale * display_grid.shape[1], scale * display_grid.shape[0])
+        )
+        plt.imshow(display_grid, aspect="auto", cmap="viridis")
         plt.title(layer_id)
         plt.grid(False)
-        plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/representation-{layer_id}-ep-{epoch}.png")
+        plt.savefig(
+            f"{hydra.utils.get_original_cwd()}/reports/figures/representation-{layer_id}-ep-{epoch}.png"
+        )
         return plt
 
     def intermediate_distribution(self, layer_id, epoch):
         """Plots the intermediate representation of the model for a given layer.
-               Parameters:
-                       data (tensor): a 4 dimensional tensor of shape (batch_size, channels, height, width)
-                       layer_id (str): the name of the layer to visualize
-                       dim_reduction (bool): whether to reduce the dimensionality of the feature map
+        Parameters:
+                data (tensor): a 4 dimensional tensor of shape (batch_size, channels, height, width)
+                layer_id (str): the name of the layer to visualize
+                dim_reduction (bool): whether to reduce the dimensionality of the feature map
 
-               Returns:
-                       None
-               """
+        Returns:
+                None
+        """
         plt.clf()
         model_features = FeatureExtractor(self.model, layers=[layer_id])
         images, y = self.data
         activations = model_features(images)[layer_id]
-        tsne = TSNE(n_components=2, init='pca', random_state=0, learning_rate='auto')
+        tsne = TSNE(n_components=2, init="pca", random_state=0, learning_rate="auto")
         activations = tsne.fit_transform(
             activations.detach().numpy().reshape(activations.size(0), -1)
         )
@@ -117,8 +121,10 @@ class Visuals(object):
             hue=y.data.numpy(),
             palette=sns.color_palette("hls", 10),
             legend="full",
-            alpha=0.3
+            alpha=0.3,
         )
         plt.title("t-SNE visualization of layer {}".format(layer_id))
-        plt.savefig(f"{hydra.utils.get_original_cwd()}/reports/figures/distribution-{layer_id}-ep-{epoch}.png")
+        plt.savefig(
+            f"{hydra.utils.get_original_cwd()}/reports/figures/distribution-{layer_id}-ep-{epoch}.png"
+        )
         return plt
