@@ -2,16 +2,16 @@
 LFW dataloading
 """
 import argparse
+import glob
+import os
 import time
 
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import os
-import glob
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
-import matplotlib.pyplot as plt
 
 
 class LFWDataset(Dataset):
@@ -25,7 +25,7 @@ class LFWDataset(Dataset):
 
     def get_imgs(self):
         for label in os.listdir(self.dir_path):
-            for file in glob.glob(self.dir_path + '/' + label + '/*.jpg'):
+            for file in glob.glob(self.dir_path + "/" + label + "/*.jpg"):
                 self.img_paths.append(file)
                 self.labels.append(label)
 
@@ -37,19 +37,18 @@ class LFWDataset(Dataset):
         return self.transform(Image.open(self.img_paths[index]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-path_to_folder', default='', type=str)
-    parser.add_argument('-num_workers', default=None, type=int)
-    parser.add_argument('-visualize_batch', action='store_true')
-    parser.add_argument('-get_timing', action='store_true')
-    parser.add_argument('-errorplot', action='store_true')
+    parser.add_argument("-path_to_folder", default="", type=str)
+    parser.add_argument("-num_workers", default=None, type=int)
+    parser.add_argument("-visualize_batch", action="store_true")
+    parser.add_argument("-get_timing", action="store_true")
+    parser.add_argument("-errorplot", action="store_true")
     args = parser.parse_args()
 
-    lfw_trans = transforms.Compose([
-        transforms.RandomAffine(5, (0.1, 0.1), (0.5, 2.0)),
-        transforms.ToTensor()
-    ])
+    lfw_trans = transforms.Compose(
+        [transforms.RandomAffine(5, (0.1, 0.1), (0.5, 2.0)), transforms.ToTensor()]
+    )
 
     # Define dataset
     dataset = LFWDataset(args.path_to_folder, lfw_trans)
@@ -75,12 +74,13 @@ if __name__ == '__main__':
 
             results.append(np.mean(res))
             stds.append(np.std(res))
-            print(f'Timing: {np.mean(res)}+-{np.std(res)}')
+            print(f"Timing: {np.mean(res)}+-{np.std(res)}")
 
-        plt.errorbar(workers, results, yerr=stds, label='both limits (default)')
+        plt.errorbar(workers, results, yerr=stds, label="both limits (default)")
     else:
-        dataloader = DataLoader(dataset, batch_size=512, shuffle=False,
-                                num_workers=args.num_workers)
+        dataloader = DataLoader(
+            dataset, batch_size=512, shuffle=False, num_workers=args.num_workers
+        )
 
     if args.visualize_batch:
         figure = plt.figure(figsize=(8, 8))
@@ -108,4 +108,4 @@ if __name__ == '__main__':
             res.append(end - start)
 
         res = np.array(res)
-        print(f'Timing: {np.mean(res)}+-{np.std(res)}')
+        print(f"Timing: {np.mean(res)}+-{np.std(res)}")

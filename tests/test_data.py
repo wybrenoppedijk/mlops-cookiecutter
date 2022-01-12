@@ -1,5 +1,3 @@
-
-
 from src.data.dataset import MNIST_Corrupted
 
 # Write test that tests the size of the test, train for the corrupted mnist dataset

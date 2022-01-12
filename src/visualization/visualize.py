@@ -82,7 +82,7 @@ class Visuals(object):
                     "uint8"
                 )
                 display_grid[
-                    col * size: (col + 1) * size, row * size: (row + 1) * size
+                    col * size : (col + 1) * size, row * size : (row + 1) * size
                 ] = channel_image
         scale = 1.0 / size
         plt.figure(
