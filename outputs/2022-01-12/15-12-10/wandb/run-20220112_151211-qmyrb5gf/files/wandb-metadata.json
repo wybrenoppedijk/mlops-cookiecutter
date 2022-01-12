@@ -1,0 +1,22 @@
+{
+    "os": "macOS-10.16-x86_64-i386-64bit",
+    "python": "3.9.7",
+    "heartbeatAt": "2022-01-12T14:12:17.200376",
+    "startedAt": "2022-01-12T14:12:11.887423",
+    "docker": null,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/wybrenoppedijk/Documents/DTU/Year2/mlops/mlops-project/src/models/train_model.py",
+    "codePath": "src/models/train_model.py",
+    "git": {
+        "remote": "git@github.com:wybrenoppedijk/mlops-cookiecutter.git",
+        "commit": "70ec726cb818cf914c0de098b89f450013ece18b"
+    },
+    "email": "s203130@student.dtu.dk",
+    "root": "/Users/wybrenoppedijk/Documents/DTU/Year2/mlops/mlops-project",
+    "host": "Wybrens-MacBook-Pro.local",
+    "username": "wybrenoppedijk",
+    "executable": "/Users/wybrenoppedijk/opt/anaconda3/envs/mlops/bin/python"
+}

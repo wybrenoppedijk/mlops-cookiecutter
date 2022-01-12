@@ -1,0 +1,135 @@
+wandb_version: 1
+
+_content:
+  desc: null
+  value:
+    data: '{''dataset'': ''mnist'', ''data_path'': ''${hydra:runtime.cwd}/data/processed/corruptmnist''}'
+    model: '{''seed'': 17, ''dropout_rate'': 0.2, ''max_channel_size'': 32, ''stride'':
+      2, ''kernel'': 5, ''padding'': 2, ''hidden_size'': 150, ''num_classes'': 10,
+      ''img_height'': 28, ''img_width'': 28, ''img_channels'': 1}'
+    predict: '{''model_path'': ''models/corruptmnist/model.pt'', ''data_path'': ''data/processed/corruptmnist/test.pt''}'
+    train: '{''lr'': 0.001, ''epoch'': 10, ''model_name'': ''model.pt'', ''data_path'':
+      ''data/train.csv''}'
+_flags_cache:
+  desc: null
+  value:
+    struct: true
+_metadata:
+  desc: null
+  value: 'ContainerMetadata(ref_type=typing.Any, object_type=None, optional=True,
+    key=None, flags={''struct'': True}, flags_root=False, resolver_cache=defaultdict(<class
+    ''dict''>, {''now'': {(''%Y-%m-%d'',): ''2022-01-12'', (''%H-%M-%S'',): ''14-43-47''}}),
+    key_type=typing.Any, element_type=typing.Any)'
+_parent:
+  desc: null
+  value: null
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.9
+    framework: huggingface
+    huggingface_version: 4.15.0
+    is_jupyter_run: false
+    is_kaggle_kernel: true
+    m:
+    - 1: trainer/global_step
+      6:
+      - 3
+    - 1: Intermediate Representation._type
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Representation.path
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Representation.sha256
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Representation.size
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Representation.format
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Representation.width
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Representation.height
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution._type
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution.path
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution.sha256
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution.size
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution.format
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution.width
+      5: 1
+      6:
+      - 1
+    - 1: Intermediate Distribution.height
+      5: 1
+      6:
+      - 1
+    - 1: train_loss
+      5: 1
+      6:
+      - 1
+    - 1: train_acc
+      5: 1
+      6:
+      - 1
+    - 1: epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_loss
+      5: 1
+      6:
+      - 1
+    - 1: val_acc
+      5: 1
+      6:
+      - 1
+    python_version: 3.9.7
+    start_time: 1641995029
+    t:
+      1:
+      - 1
+      - 5
+      - 9
+      - 11
+      2:
+      - 1
+      - 5
+      - 9
+      - 11
+      3:
+      - 7
+      - 16
+      4: 3.9.7
+      5: 0.12.9
+      6: 4.15.0
+      8:
+      - 2
+      - 5
