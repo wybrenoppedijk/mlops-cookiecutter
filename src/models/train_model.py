@@ -35,6 +35,7 @@ def train(config):
     )
     model = MyAwesomeModel(config)
     trainer.fit(model, mnist_train, mnist_val)
+    trainer.save_checkpoint(f"{hydra.utils.get_original_cwd()}/model_store/corrupted_mnist.ckpt")
 
 
 if __name__ == "__main__":
